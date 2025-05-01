@@ -15,11 +15,15 @@ jobs:
           - 'TATAMOTORS.NS'
           - 'INFY.NS'
           - 'HDFCBANK.NS'
-      # Add this to run jobs one after another instead of in parallel
+      # Run jobs one after another
       max-parallel: 1
     steps:
     - name: Checkout code
+      # Use clean checkout for each job to avoid unstaged changes
       uses: actions/checkout@v3
+      with:
+        # Fetch all history for all branches and tags
+        fetch-depth: 0
       
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -52,11 +56,32 @@ jobs:
         
     - name: Commit and push SVG files
       run: |
-        # Always pull latest changes before committing
-        git pull origin main --rebase
-        git add svgs/${{ matrix.stock }}.svg
-        git commit -m "Add SVG for ${{ matrix.stock }}" || echo "No changes to commit"
-        git push origin main
+        # Ensure we're on the main branch with latest changes
+        git fetch origin
+        git checkout main
+        git pull origin main
+        
+        # Check if the file exists to avoid re-adding files from previous runs
+        if [ -f "svgs/${{ matrix.stock }}.svg" ]; then
+          git add svgs/${{ matrix.stock }}.svg
+          git commit -m "Add SVG for ${{ matrix.stock }}" || echo "No changes to commit"
+          
+          # Try to push, with retry logic in case of conflicts
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+            git pull --rebase origin main
+            if git push origin main; then
+              echo "Push successful!"
+              break
+            else
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
+        else
+          echo "SVG file not found!"
+          exit 1
+        fi
         
     - name: Sleep between runs to avoid rate limiting
       run: |
