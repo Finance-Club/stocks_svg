@@ -46,6 +46,8 @@ jobs:
         
     - name: Commit and push SVG files
       run: |
+        git fetch origin main
+        git rebase origin/main
         git add svgs/${{ matrix.stock }}.svg
         git commit -m "Add SVG for ${{ matrix.stock }}" || echo "No changes to commit"
         git push
