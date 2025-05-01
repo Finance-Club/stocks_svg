@@ -32,15 +32,16 @@ def create_svg(data, symbol):
     SubElement(fe_merge, 'feMergeNode', in_="coloredBlur")
     SubElement(fe_merge, 'feMergeNode', in_="SourceGraphic")
 
-    prices = data['Close'].values
+    # Convert numpy array to Python list to avoid formatting issues
+    prices = [float(p) for p in data['Close'].values]
     dates = data.index.strftime('%m-%d').tolist()
     n = len(prices)
 
     if n < 2:
         raise ValueError(f"Not enough data points to plot {symbol}")
 
-    max_price = float(prices.max())
-    min_price = float(prices.min())
+    max_price = float(max(prices))
+    min_price = float(min(prices))
     padding = (max_price - min_price) * 0.1 or 1
     max_price += padding
     min_price -= padding
@@ -68,7 +69,7 @@ def create_svg(data, symbol):
                           fill="rgba(255,255,255,0.5)",
                           opacity="0",
                           **{'font-size': "11", 'text-anchor': "end", 'font-family': 'Arial'})
-        text.text = f"{price:,.0f}"
+        text.text = f"{price:.2f}"  # Using standard format instead of comma formatting
         SubElement(text, 'animate',
                    attributeName="opacity",
                    from_="0", to="1",
@@ -151,8 +152,8 @@ def create_svg(data, symbol):
                        fill="freeze")
 
     # Add stock symbol and current price
-    current_price = prices[-1]
-    previous_price = prices[0]
+    current_price = float(prices[-1])
+    previous_price = float(prices[0])
     percent_change = ((current_price - previous_price) / previous_price) * 100
     
     # Symbol text
@@ -236,6 +237,7 @@ def generate_stock_svg(ticker_symbol):
     """Generate an SVG chart for the given stock ticker."""
     
     print(f"📈 Fetching data for {ticker_symbol}...")
+    create_fallback = False
     
     # Add retry mechanism for rate limiting
     max_retries = 3
@@ -259,7 +261,8 @@ def generate_stock_svg(ticker_symbol):
             break  # Success, exit retry loop
             
         except Exception as e:
-            print(f"⚠️ Attempt {attempt+1}/{max_retries} failed for {ticker_symbol}: {str(e)}")
+            error = str(e)
+            print(f"⚠️ Attempt {attempt+1}/{max_retries} failed for {ticker_symbol}: {error}")
             if attempt < max_retries - 1:
                 # Add some jitter to the delay to avoid synchronized retries
                 jitter = random.uniform(0.5, 1.5)
@@ -268,9 +271,9 @@ def generate_stock_svg(ticker_symbol):
                 time.sleep(sleep_time)
                 retry_delay *= 2  # Exponential backoff
             else:
-                print(f"❌ Failed download:\n['{ticker_symbol}']: {str(e)}")
+                print(f"❌ Failed download:\n['{ticker_symbol}']: {error}")
                 create_fallback = True
-                error_msg = str(e)
+                error_msg = error
     
     # Create output directory if it doesn't exist
     os.makedirs("svgs", exist_ok=True)
