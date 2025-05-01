@@ -33,11 +33,22 @@ jobs:
     - name: List generated SVGs
       run: ls -l svgs
       
-    - name: Upload SVG file
+    - name: Upload SVG file as artifact
       uses: actions/upload-artifact@v4
       with:
         name: svg-${{ matrix.stock }}
         path: svgs/${{ matrix.stock }}.svg
+        
+    - name: Configure Git
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        
+    - name: Commit and push SVG files
+      run: |
+        git add svgs/${{ matrix.stock }}.svg
+        git commit -m "Add SVG for ${{ matrix.stock }}" || echo "No changes to commit"
+        git push
         
     - name: Sleep between runs to avoid rate limiting
       run: |
