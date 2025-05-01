@@ -32,7 +32,10 @@ jobs:
       run: |
         mkdir -p svgs
         python generate_svgs.py ${{ matrix.stock }}
-    
+
+    - name: List generated SVGs
+      run: ls -l svgs
+
     - name: Upload SVG file
       uses: actions/upload-artifact@v3
       with:
