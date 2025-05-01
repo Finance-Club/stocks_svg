@@ -1,32 +1,11 @@
-import yfinance as yf
-import datetime
+import sys
 import os
-
+import time
+import yfinance as yf
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
 
-# Configuration
-OUTPUT_DIR = "static/img/"
-DAYS_TO_FETCH = 7
-STOCK_SYMBOLS = [
-    "RELIANCE.NS",
-    "TCS.NS",
-    "INFY.NS",
-    "HDFCBANK.NS",
-    "ICICIBANK.NS",
-    "HINDUNILVR.NS",
-    "SBIN.NS",
-    "BHARTIARTL.NS",
-    "ASIANPAINT.NS",
-    "BAJFINANCE.NS"
-]
-
-def fetch_stock_data(symbol, days):
-    end_date = datetime.datetime.now()
-    start_date = end_date - datetime.timedelta(days=days)
-    data = yf.download(symbol, start=start_date.strftime('%Y-%m-%d'), end=end_date.strftime('%Y-%m-%d'), progress=False)
-    return data['Close']
-
+# Function to create the SVG
 def create_svg(data, symbol):
     size = 500
     margin = 50
@@ -50,7 +29,7 @@ def create_svg(data, symbol):
     SubElement(fe_merge, 'feMergeNode', in_="coloredBlur")
     SubElement(fe_merge, 'feMergeNode', in_="SourceGraphic")
 
-    prices = data.values
+    prices = data['Close'].values
     dates = data.index.strftime('%m-%d').tolist()
     n = len(prices)
 
@@ -173,24 +152,53 @@ def create_svg(data, symbol):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
-def save_svg(content, filename):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    path = os.path.join(OUTPUT_DIR, filename)
-    with open(path, 'w') as f:
-        f.write(content)
-    print(f"✅ Saved: {path}")
+# Function to fetch stock data and generate the SVG
+def generate_svg(ticker):
+    print(f"📈 Fetching data for {ticker}...")
 
-def main():
-    for symbol in STOCK_SYMBOLS:
-        try:
-            print(f"📈 Fetching data for {symbol}...")
-            data = fetch_stock_data(symbol, DAYS_TO_FETCH)
-            print(f"🎨 Generating SVG for {symbol}...")
-            svg_content = create_svg(data, symbol)
-            svg_filename = f"{symbol.replace('.NS','').lower()}_stock.svg"
-            save_svg(svg_content, svg_filename)
-        except Exception as e:
-            print(f"❌ Error for {symbol}: {e}")
+    try:
+        # Download stock data (5-day period, 1-day interval)
+        data = yf.download(ticker, period="5d", interval="1d", progress=False)
 
+        # If there's not enough data, raise an error
+        if len(data) < 2:
+            raise ValueError(f"Not enough data points to plot {ticker}")
+
+        print(f"🎨 Generating SVG for {ticker}...")
+
+        # Create SVG
+        svg_content = create_svg(data, ticker)
+
+        # Save the SVG to a file
+        output_file = f"svgs/{ticker}.svg"
+        os.makedirs("svgs", exist_ok=True)
+        with open(output_file, "w") as f:
+            f.write(svg_content)
+
+        print(f"✅ Saved {output_file}")
+
+    except Exception as e:
+        print(f"❌ Error for {ticker}: {e}")
+
+# Main function to read stock list and run the process
 if __name__ == "__main__":
-    main()
+    # If no argument is provided, read from stocks.txt
+    if len(sys.argv) == 1:
+        print("🔄 Reading stock symbols from stocks.txt...")
+        try:
+            with open("stocks.txt") as f:
+                stocks = f.readlines()
+            stocks = [stock.strip() for stock in stocks]
+
+            # Process each stock symbol one by one
+            for stock in stocks:
+                generate_svg(stock)
+                # Optional delay to avoid rate limits
+                time.sleep(5)
+
+        except FileNotFoundError:
+            print("❌ Error: stocks.txt not found!")
+
+    else:
+        # Generate SVG for a single stock passed as argument
+        generate_svg(sys.argv[1])
