@@ -1,6 +1,10 @@
 name: Generate SVGs for Stocks
 on:
   workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
   generate-svgs:
     runs-on: ubuntu-latest
@@ -11,6 +15,8 @@ jobs:
           - 'TATAMOTORS.NS'
           - 'INFY.NS'
           - 'HDFCBANK.NS'
+      # Add this to run jobs one after another instead of in parallel
+      max-parallel: 1
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -46,15 +52,15 @@ jobs:
         
     - name: Commit and push SVG files
       run: |
-        git fetch origin main
-        git rebase origin/main
+        # Always pull latest changes before committing
+        git pull origin main --rebase
         git add svgs/${{ matrix.stock }}.svg
         git commit -m "Add SVG for ${{ matrix.stock }}" || echo "No changes to commit"
-        git push
+        git push origin main
         
     - name: Sleep between runs to avoid rate limiting
       run: |
-        # Random sleep time between 15-30 seconds to avoid rate limiting
-        SLEEP_TIME=$((15 + RANDOM % 15))
+        # Sleep time to avoid rate limiting for API calls
+        SLEEP_TIME=$((5 + RANDOM % 10))
         echo "Sleeping for $SLEEP_TIME seconds to avoid rate limiting..."
         sleep $SLEEP_TIME
