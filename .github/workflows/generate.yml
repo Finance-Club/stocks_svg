@@ -34,10 +34,14 @@ jobs:
       run: ls -l svgs
       
     - name: Upload SVG file
-      uses: actions/upload-artifact@v4  # Updated from v3 to v4
+      uses: actions/upload-artifact@v4
       with:
         name: svg-${{ matrix.stock }}
         path: svgs/${{ matrix.stock }}.svg
         
-    - name: Sleep between runs (optional)
-      run: sleep 5
+    - name: Sleep between runs to avoid rate limiting
+      run: |
+        # Random sleep time between 15-30 seconds to avoid rate limiting
+        SLEEP_TIME=$((15 + RANDOM % 15))
+        echo "Sleeping for $SLEEP_TIME seconds to avoid rate limiting..."
+        sleep $SLEEP_TIME
