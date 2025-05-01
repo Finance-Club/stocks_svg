@@ -1,8 +1,6 @@
 name: Generate SVGs for Stocks
-
 on:
   workflow_dispatch:
-
 jobs:
   generate-svgs:
     runs-on: ubuntu-latest
@@ -13,34 +11,33 @@ jobs:
           - 'TATAMOTORS.NS'
           - 'INFY.NS'
           - 'HDFCBANK.NS'
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+      
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install yfinance
-
+        
     - name: Generate SVG for ${{ matrix.stock }}
       run: |
         mkdir -p svgs
         python generate_svgs.py ${{ matrix.stock }}
-
+        
     - name: List generated SVGs
       run: ls -l svgs
-
+      
     - name: Upload SVG file
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # Updated from v3 to v4
       with:
         name: svg-${{ matrix.stock }}
         path: svgs/${{ matrix.stock }}.svg
-
+        
     - name: Sleep between runs (optional)
       run: sleep 5
