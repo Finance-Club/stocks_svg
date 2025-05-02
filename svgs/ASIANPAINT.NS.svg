@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background-color: #111111">
+  <defs>
+    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.5);stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.2);stop-opacity:1"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in_="coloredBlur"/>
+        <feMergeNode in_="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <line x1="50" y1="50.0" x2="450" y2="50.0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <text x="40" y="54.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="end" font-family="Arial">
+    2456.44
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <line x1="50" y1="150.0" x2="450" y2="150.0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <text x="40" y="154.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="end" font-family="Arial">
+    2443.72
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <line x1="50" y1="250.0" x2="450" y2="250.0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <text x="40" y="254.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="end" font-family="Arial">
+    2431.00
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <line x1="50" y1="350.0" x2="450" y2="350.0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <text x="40" y="354.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="end" font-family="Arial">
+    2418.28
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <line x1="50" y1="450.0" x2="450" y2="450.0" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+  <text x="40" y="454.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="end" font-family="Arial">
+    2405.56
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <path d="M 50,245 C 100.0,245 100.0,83 150,83 C 200.0,83 200.0,92 250,92 C 300.0,92 300.0,292 350,292 C 400.0,292 400.0,417 450,417" fill="none" stroke="url(#lineGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="stroke-dasharray" from_="1500 1500" to="0 0" dur="2s" fill="freeze"/>
+  </path>
+  <circle cx="50" cy="245" r="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+    <animate attributeName="r" values="2;8" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="245" r="3" fill="white" opacity="0">
+    <animate attributeName="opacity" from_="0" to="1" dur="0.3s" begin="2s" fill="freeze"/>
+  </circle>
+  <circle cx="150" cy="83" r="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+    <animate attributeName="r" values="2;8" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="150" cy="83" r="3" fill="white" opacity="0">
+    <animate attributeName="opacity" from_="0" to="1" dur="0.3s" begin="2s" fill="freeze"/>
+  </circle>
+  <circle cx="250" cy="92" r="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+    <animate attributeName="r" values="2;8" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="250" cy="92" r="3" fill="white" opacity="0">
+    <animate attributeName="opacity" from_="0" to="1" dur="0.3s" begin="2s" fill="freeze"/>
+  </circle>
+  <circle cx="350" cy="292" r="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+    <animate attributeName="r" values="2;8" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="350" cy="292" r="3" fill="white" opacity="0">
+    <animate attributeName="opacity" from_="0" to="1" dur="0.3s" begin="2s" fill="freeze"/>
+  </circle>
+  <circle cx="450" cy="417" r="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1">
+    <animate attributeName="r" values="2;8" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0" dur="1.5s" begin="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="450" cy="417" r="3" fill="white" opacity="0">
+    <animate attributeName="opacity" from_="0" to="1" dur="0.3s" begin="2s" fill="freeze"/>
+  </circle>
+  <text x="50" y="475.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="middle" font-family="Arial">
+    04-25
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <text x="150" y="475.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="middle" font-family="Arial">
+    04-28
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <text x="250" y="475.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="middle" font-family="Arial">
+    04-29
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <text x="350" y="475.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="middle" font-family="Arial">
+    04-30
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <text x="450" y="475.0" fill="rgba(255,255,255,0.5)" opacity="0" font-size="11" text-anchor="middle" font-family="Arial">
+    05-02
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
+  </text>
+  <text x="50" y="25.0" fill="white" opacity="0" font-size="16" font-weight="bold" text-anchor="start" font-family="Arial">
+    ASIANPAINT.NS
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="0.5s" fill="freeze"/>
+  </text>
+  <text x="450" y="25.0" fill="rgb(255, 71, 87)" opacity="0" font-size="14" font-weight="bold" text-anchor="end" font-family="Arial">
+    2409.80 (-0.90%)
+    <animate attributeName="opacity" from_="0" to="1" dur="0.5s" begin="1s" fill="freeze"/>
+  </text>
+</svg>
