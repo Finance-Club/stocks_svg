@@ -15,6 +15,13 @@ jobs:
           - 'TATAMOTORS.NS'
           - 'INFY.NS'
           - 'HDFCBANK.NS'
+          - 'TCS.NS'
+          - 'ICICIBANK.NS'
+          - 'HINDUNILVR.NS'
+          - 'SBIN.NS'
+          - 'BHARTIARTL.NS'
+          - 'ASIANPAINT.NS'
+          - 'BAJFINANCE.NS'
       # Run jobs one after another
       max-parallel: 1
     steps:
