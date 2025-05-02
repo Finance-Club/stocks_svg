@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" style="background-color: #111111">
+  <text x="250" y="100" fill="white" font-size="24" font-weight="bold" text-anchor="middle" font-family="Arial">ICICIBANK.NS</text>
+  <text x="250" y="150" fill="rgb(255, 71, 87)" font-size="16" text-anchor="middle" font-family="Arial">Error: Unable to fetch data</text>
+  <text x="250" y="180" fill="rgba(255,255,255,0.5)" font-size="12" text-anchor="middle" font-family="Arial">Not enough data points</text>
+  <path d="M 100,250 L 400,250" stroke="rgba(255,255,255,0.2)" fill="none" stroke-width="2" stroke-dasharray="10,10"/>
+</svg>
